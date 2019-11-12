@@ -21,9 +21,18 @@ const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
   mode: isProduction ? 'production' : 'none',
   context: __dirname,
-  entry: `${src}/index.js`,
+  entry: {
+    code: `${src}/index.js`,
+    sidebar: `${src}/sidebar.js`
+  },
   output: {
-    filename: `code-${version}.js`,
+    filename: (chunkData) => {
+      if (chunkData.chunk.name === 'code') {
+        return `code-${version}.js`;
+      } else {
+        return '[name].js';
+      }
+    },
     path: destination,
     libraryTarget: 'this'
   },
@@ -57,7 +66,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'eslint-loader',
         options: {
-          cache: true,
+          cache: false,
           failOnError: false,
           fix: true
         }

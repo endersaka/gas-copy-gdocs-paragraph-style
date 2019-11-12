@@ -23,14 +23,14 @@ const allGetters = [].concat(
 );
 
 function objectOwnFunctionsToHTML(obj) {
-  html = '<ul>';
+  let html = '<ul>';
 
   if (typeof obj === 'undefined' || obj == null) {
     return null;
   }
 
   for (const prop in obj) {
-    if (typeof obj[prop] === 'function' && prop.indexOf('get') == 0) {
+    if (typeof obj[prop] === 'function' && prop.indexOf('get') === 0) {
       html += `<li>${prop}</li>`;
     }
   }
@@ -74,7 +74,7 @@ function getterReturnValueToHTML(elt, getter) {
 
   if (
     typeof value === 'number' ||
-    (typeof value === 'object' && value != null && value.constructor == Number)
+    (typeof value === 'object' && value != null && value.constructor === Number)
   ) {
     inputType = 'number';
   }
@@ -92,22 +92,23 @@ function getterReturnValueToHTML(elt, getter) {
 }
 
 function elementAttributesToHTML(elt) {
-  const type = elt.getType();
+  let eltTmp = elt;
+  let type = eltTmp.getType();
   // Logger.log('Element type: %s', type);
 
-  if (type == DocumentApp.ElementType.TEXT) {
-    elt = elt.getParent();
+  if (type === DocumentApp.ElementType.TEXT) {
+    eltTmp = eltTmp.getParent();
     // Logger.log('Element type (after change): %s', elt.getType());
   }
 
   let html = `<h3>${type}</h3>`;
 
-  const attributes = elt.getAttributes();
+  const attributes = eltTmp.getAttributes();
   const entries = [];
 
   // Populate entries. Google Apps Script JavaScript does not support Object.entries(obj).
   for (const key in attributes) {
-    const value = elt[key];
+    const value = eltTmp[key];
 
     // Skip functions.
     if (typeof value === 'function') {
@@ -126,7 +127,7 @@ function elementAttributesToHTML(elt) {
   html += '<form><fieldset style="border-width: 0; margin: 0; padding: 0;">';
 
   allGetters.forEach(function(getter) {
-    html += getterReturnValueToHTML(elt, getter);
+    html += getterReturnValueToHTML(eltTmp, getter);
   });
 
   html += '</fieldset></form>';
@@ -138,7 +139,7 @@ function elementAttributesToHTML(elt) {
     let result = `${acc}<li>${entry[0]}: ${value}</li>`;
 
     // If this is the last entry, append the <UL> closing tag.
-    if (index == lastIndex) {
+    if (index === lastIndex) {
       result += '</ul>';
     }
 
@@ -162,7 +163,7 @@ function selectionPropertiesToHTML(sel) {
     return `<p>Nothing selected</p>${elementAttributesToHTML(elt)}`;
   }
 
-  elements = sel.getRangeElements();
+  let elements = sel.getRangeElements();
 
   return elements.reduce(function(acc, rel) {
     return acc + elementAttributesToHTML(rel.getElement());

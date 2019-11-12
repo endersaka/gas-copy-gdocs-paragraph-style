@@ -11,12 +11,17 @@
     "googleappsscript"
   ],
   "env": {
+    "browser": true,
     "googleappsscript/googleappsscript": true
   },
   "rules": {
     "prettier/prettier": "error",
     "import/prefer-default-export": "error",
-    "no-unused-vars": "off"
+    "no-restricted-syntax": "off",
+    "no-unused-vars": "off",
+    "guard-for-in": "off",
+    "no-continue": "off",
+    "no-console": "off"
   },
   "globals": {
     "OAuth1": true,

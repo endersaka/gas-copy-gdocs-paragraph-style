@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ![Google Apps Script Development with ES6](https://digitalinspiration.com/images/google-apps-script-development.png)
 
 ## Google Apps Script Development 💯
@@ -117,3 +118,7 @@ Contributions and feature requests are welcome. If you are using the Google Apps
 ### :lock: License
 
 [MIT License](https://github.com/labnol/apps-script-starter/blob/master/LICENSE) (c) [Amit Agarwal](https://digitalinspiration.com/google-developer)
+=======
+# gas-copy-gdocs-paragraph-style
+Experiments to copy a Google Docs paragraph style to another paragraph.
+>>>>>>> 403682fe0a57be22c26cfcf4b85a32aef61ffc51

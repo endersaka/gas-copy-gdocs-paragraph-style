@@ -82,6 +82,10 @@ module.exports = {
       {
         from: `${src}/../appsscript.json`,
         to: destination
+      },
+      {
+        from: `${src}/sidebar.js`,
+        to: destination
       }
     ]),
     new GasPlugin({

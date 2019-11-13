@@ -7,6 +7,7 @@
  * https://github.com/labnol/apps-script-starter
  */
 
+const fs = require('fs')
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -18,20 +19,28 @@ const src = path.resolve(__dirname, 'src');
 const destination = path.resolve(__dirname, 'dist');
 const isProduction = process.env.NODE_ENV === 'production';
 
+// const babel = require('@babel/core');
+// const content = fs.readFileSync(path.resolve(__dirname, '.babelrc'));
+// const options = JSON.parse(content);
+// console.log(`OPTIONS:`, options);
+
+//babel.transformFile(`${src}/sidebar.js`, );
+
 module.exports = {
   mode: isProduction ? 'production' : 'none',
   context: __dirname,
   entry: {
-    code: `${src}/index.js`,
-    sidebar: `${src}/sidebar.js`
+    code: `${src}/index.js`//,
+    //sidebar: `${src}/sidebar.js`
   },
   output: {
     filename: (chunkData) => {
       if (chunkData.chunk.name === 'code') {
         return `code-${version}.js`;
-      } else {
-        return '[name].js';
       }
+      // else {
+      //   return '[name].js';
+      // }
     },
     path: destination,
     libraryTarget: 'this'
@@ -59,6 +68,10 @@ module.exports = {
     ]
   },
   module: {
+    // noParse: [
+    //   //new RegExp(src + '/sidebar.js')
+    //   /sidebar\.js$/
+    // ],
     rules: [
       {
         enforce: 'pre',
@@ -73,9 +86,29 @@ module.exports = {
       },
       {
         test: /\.js$/,
+        exclude: /node_modules|sidebar\.js\.html/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /sidebar\.js\.html$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
+        },
+        parser: {
+          amd: false, // disable AMD
+          commonjs: false, // disable CommonJS
+          system: false, // disable SystemJS
+          harmony: false, // disable ES2015 Harmony import/export
+          // requireInclude: false, // disable require.include
+          // requireEnsure: false, // disable require.ensure
+          // requireContext: false, // disable require.context
+          // browserify: false, // disable special handling of Browserify bundles
+          requireJs: false, // disable requirejs.*
+          // node: false, // disable dirname, filename, module, require.extensions, require.main, etc.
+          // node: {...} // reconfigure node layer on module level
         }
       }
     ]

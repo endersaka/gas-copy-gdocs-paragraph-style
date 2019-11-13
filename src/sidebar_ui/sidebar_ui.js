@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const spacingGetters = ['getLineSpacing', 'getSpacingAfter', 'getSpacingBefore'];
 const indentationGetters = ['getIndentStart', 'getIndentEnd', 'getIndentFirstLine'];
 const colorGetters = ['getForegroundColor', 'getBackgroundColor'];
@@ -81,7 +82,7 @@ function getterReturnValueToHTML(elt, getter) {
 
 function elementAttributesToHTML(elt) {
   let eltTmp = elt;
-  let type = eltTmp.getType();
+  const type = eltTmp.getType();
   // Logger.log('Element type: %s', type);
 
   if (type === DocumentApp.ElementType.TEXT) {
@@ -151,7 +152,7 @@ function selectionPropertiesToHTML(sel) {
     return `<p>Nothing selected</p>${elementAttributesToHTML(elt)}`;
   }
 
-  let elements = sel.getRangeElements();
+  const elements = sel.getRangeElements();
 
   return elements.reduce(function(acc, rel) {
     return acc + elementAttributesToHTML(rel.getElement());
@@ -171,136 +172,142 @@ function scriptHTMLElement() {
 
 // Show the selected element(s) attributes labels and values.
 function showSelectionProperties() {
-//   // Get the active document. The one this script is bound to.
-//   const doc = DocumentApp.getActiveDocument();
+  // // Get the active document. The one this script is bound to.
+  // const doc = DocumentApp.getActiveDocument();
 
-//   // Get the selection as a Range object, if any, or null.
-//   const sel = doc.getSelection();
+  // // Get the selection as a Range object, if any, or null.
+  // const sel = doc.getSelection();
 
-//   // Create the HTML output to send to the Custom Sidebar.
-//   const html = HtmlService.createHtmlOutput(selectionPropertiesToHTML(sel) + scriptHTMLElement())
-//     .setTitle('My custom sidebar') // Set the title of the Sidebar.
-//     .setWidth(300); // Set the width of the Sidebar.
+  // // Create the HTML output to send to the Custom Sidebar.
+  // const html = HtmlService.createHtmlOutput(selectionPropertiesToHTML(sel) + scriptHTMLElement())
+  //   .setTitle('My custom sidebar') // Set the title of the Sidebar.
+  //   .setWidth(300); // Set the width of the Sidebar.
 
-//   // It becomes SlidesApp, FormApp, ecc... Depending on the type of document this script is bound to.
-//   DocumentApp.getUi().showSidebar(html);
+  // // It becomes SlidesApp, FormApp, ecc... Depending on the type of document this script is bound to.
+  // DocumentApp.getUi().showSidebar(html);
 
-const html = HtmlService.createTemplateFromFile('index').evaluate()
-.setTitle('My custom sidebar') // Set the title of the Sidebar.
-.setWidth(300); // Set the width of the Sidebar.
+  const html = HtmlService.createTemplateFromFile('index')
+    .evaluate()
+    .setTitle('My custom sidebar') // Set the title of the Sidebar.
+    .setWidth(300); // Set the width of the Sidebar.
 
-// It becomes SlidesApp, FormApp, ecc... Depending on the type of document this script is bound to.
-DocumentApp.getUi().showSidebar(html);
-
+  // It becomes SlidesApp, FormApp, ecc... Depending on the type of document this script is bound to.
+  DocumentApp.getUi().showSidebar(html);
 }
 
 function showSidebar() {
-    showSelectionProperties();
-  
-    //  var pBody = '';
-    //  var log = '';
-    //  var selection = DocumentApp.getActiveDocument().getSelection();
-    //  log += 'Test selection...<br>';
-    //
-    //  if (selection) {
-    //    log += 'Selection found...<br>';
-    //
-    //    // Get array of RangeElement objects (each one wraps an Element or subclass).
-    //    var elements = selection.getRangeElements();
-    //
-    //    for (var i = 0; i < elements.length; i++) {
-    //      // Get the Element inside the RangeElement.
-    //      var element = elements[i].getElement();
-    //
-    //      // Do something only if the element is an InlineDrawing object.
-    //      //if (element.getType() == DocumentApp.ElementType.INLINE_DRAWING) {
-    //        var attributes = element.getAttributes();
-    //        for (var attribute in attributes) {
-    //          pBody += attribute + ":" + attributes[attribute] + "<br>";
-    //        }
-    //      //}
-    //    }
-    //  }
-    //  var paragraphType = DocumentApp.ElementType.PARAGRAPH;
-    //  var listItemType = DocumentApp.ElementType.LIST_ITEM;
-    //
-    //  // Get the body section of the active document.
-    //  var body = DocumentApp.getActiveDocument().getBody();
-    //
-    //  // Define the search parameters.
-    //  var searchType = DocumentApp.ElementType.INLINE_DRAWING;
-    //
-    //  // searchResult is a RangeElement.
-    //  var searchResult = null;
-  
-    // Search until the paragraph is found.
-    //  while (searchResult = body.findElement(paragraphType, searchResult)) {
-    //    log += 'Paragraph found...<br>';
-    //    var paragraph = searchResult.getElement();
-    //
-    //    var subSearchResult = null;
-    //
-    //    while (subSearchResult = paragraph.findElement(searchType, subSearchResult)) {
-    //      log += 'Inline Drawing found...<br>';
-    //      var drawing = subSearchResult.getElement();
-    //
-    //      var attributes = drawing.getAttributes();
-    //      for (var attribute in attributes) {
-    //        pBody += attribute + ":" + attributes[attribute] + "<br>";
-    //      }
-    //    }
-    //  }
-    //
-    //  // searchResult is a RangeElement.
-    //  var searchResult = null;
-  
-    // Search until the ListItem is found.
-    //  while (searchResult = body.findElement(listItemType, searchResult)) {
-    //    log += 'ListItem found...<br>';
-    //    var listItem = searchResult.getElement();
-    //
-    //    var subSearchResult = null;
-    //
-    //    while (subSearchResult = listItem.findElement(searchType, subSearchResult)) {
-    //      log += 'Inline Drawing found...<br>';
-    //      var drawing = subSearchResult.getElement();
-    //
-    //      var attributes = drawing.getAttributes();
-    //      for (var attribute in attributes) {
-    //        pBody += attribute + ":" + attributes[attribute] + "<br>";
-    //      }
-    //    }
-    //  }
-    //
-    //  pBody = pBody != '' ? pBody : 'No selection!';
-    //
-    //  var html = HtmlService.createHtmlOutput('<p id="selection-info">' + pBody + '</p><p id="log">' + log + '</p>')
-    //  .setTitle('My custom sidebar')
-    //  .setWidth(300);
-    //  DocumentApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
-    //  .showSidebar(html);
-  }
-  
-  function onOpen() {
-    DocumentApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
-      .createMenu('Custom Menu')
-      .addItem('Show sidebar', 'showSidebar')
-      .addToUi();
-  }
+  showSelectionProperties();
 
-  /**
+  //  var pBody = '';
+  //  var log = '';
+  //  var selection = DocumentApp.getActiveDocument().getSelection();
+  //  log += 'Test selection...<br>';
+  //
+  //  if (selection) {
+  //    log += 'Selection found...<br>';
+  //
+  //    // Get array of RangeElement objects (each one wraps an Element or subclass).
+  //    var elements = selection.getRangeElements();
+  //
+  //    for (var i = 0; i < elements.length; i++) {
+  //      // Get the Element inside the RangeElement.
+  //      var element = elements[i].getElement();
+  //
+  //      // Do something only if the element is an InlineDrawing object.
+  //      //if (element.getType() == DocumentApp.ElementType.INLINE_DRAWING) {
+  //        var attributes = element.getAttributes();
+  //        for (var attribute in attributes) {
+  //          pBody += attribute + ":" + attributes[attribute] + "<br>";
+  //        }
+  //      //}
+  //    }
+  //  }
+  //  var paragraphType = DocumentApp.ElementType.PARAGRAPH;
+  //  var listItemType = DocumentApp.ElementType.LIST_ITEM;
+  //
+  //  // Get the body section of the active document.
+  //  var body = DocumentApp.getActiveDocument().getBody();
+  //
+  //  // Define the search parameters.
+  //  var searchType = DocumentApp.ElementType.INLINE_DRAWING;
+  //
+  //  // searchResult is a RangeElement.
+  //  var searchResult = null;
+
+  // Search until the paragraph is found.
+  //  while (searchResult = body.findElement(paragraphType, searchResult)) {
+  //    log += 'Paragraph found...<br>';
+  //    var paragraph = searchResult.getElement();
+  //
+  //    var subSearchResult = null;
+  //
+  //    while (subSearchResult = paragraph.findElement(searchType, subSearchResult)) {
+  //      log += 'Inline Drawing found...<br>';
+  //      var drawing = subSearchResult.getElement();
+  //
+  //      var attributes = drawing.getAttributes();
+  //      for (var attribute in attributes) {
+  //        pBody += attribute + ":" + attributes[attribute] + "<br>";
+  //      }
+  //    }
+  //  }
+  //
+  //  // searchResult is a RangeElement.
+  //  var searchResult = null;
+
+  // Search until the ListItem is found.
+  //  while (searchResult = body.findElement(listItemType, searchResult)) {
+  //    log += 'ListItem found...<br>';
+  //    var listItem = searchResult.getElement();
+  //
+  //    var subSearchResult = null;
+  //
+  //    while (subSearchResult = listItem.findElement(searchType, subSearchResult)) {
+  //      log += 'Inline Drawing found...<br>';
+  //      var drawing = subSearchResult.getElement();
+  //
+  //      var attributes = drawing.getAttributes();
+  //      for (var attribute in attributes) {
+  //        pBody += attribute + ":" + attributes[attribute] + "<br>";
+  //      }
+  //    }
+  //  }
+  //
+  //  pBody = pBody != '' ? pBody : 'No selection!';
+  //
+  //  var html = HtmlService.createHtmlOutput('<p id="selection-info">' + pBody + '</p><p id="log">' + log + '</p>')
+  //  .setTitle('My custom sidebar')
+  //  .setWidth(300);
+  //  DocumentApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
+  //  .showSidebar(html);
+}
+
+function onOpen() {
+  DocumentApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
+    .createMenu('Custom Menu')
+    .addItem('Show sidebar', 'showSidebar')
+    .addToUi();
+}
+
+/**
  * Returns the contents of an HTML file.
  * @param {string} file The name of the file to retrieve.
  * @return {string} The content of the file.
  */
 function include(file) {
-  return HtmlService.createTemplateFromFile(file).evaluate().getContent();
+  return HtmlService.createTemplateFromFile(file)
+    .evaluate()
+    .getContent();
 }
 
-  
-
 export {
-    elementAttributesToHTML, getterReturnValueToHTML, objectOwnFunctionsToHTML,
-    scriptHTMLElement, selectionPropertiesToHTML, showSelectionProperties,
-    showSidebar, onOpen, include
+  elementAttributesToHTML,
+  getterReturnValueToHTML,
+  objectOwnFunctionsToHTML,
+  scriptHTMLElement,
+  selectionPropertiesToHTML,
+  showSelectionProperties,
+  showSidebar,
+  onOpen,
+  include
 };
